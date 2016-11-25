@@ -1,0 +1,70 @@
+{# WRONG COMMENT src/AppBundle/Resources/views/Task/new.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% form_theme form _self %}
+
+{% block _product_name_row %}
+    <div class="name_row">
+        {{ form_label(form) }} ------
+        {{ form_errors(form) }} +++++
+        {{ form_widget(form) }}
+    </div>
+{% endblock %}
+
+
+{% macro tagCollectionItem(question) %}
+      {{ form_row(question.title) }}
+      <div style="display:none; width:200px;"> {{ form_label(question.select) }} </div>  
+      <div style="display:none;"> {{ form_errors(question.select) }} </div>  
+      <div style="display:none; width:200px;"> {{ form_widget(question.select) }} </div>  
+{% endmacro %}
+
+{% block body %}
+
+{{ form_start(form) }}
+    {# render the survey's only field: description #}
+
+    <div style="display:inline-block; width:150px;"> {{ form_label(form.title) }} </div>  
+    {{ form_errors(form.title) }} 
+    {{ form_widget(form.title) }}
+    <br>
+
+
+    <div style="display:inline-block; width:150px;"> {{ form_label(form.numberofvoters) }} </div>  
+    {{ form_errors(form.numberofvoters) }} 
+    {{ form_widget(form.numberofvoters) }}
+
+
+{#
+    <div style="display:inline-block; width:100px;"> {{ form_label(form.surveyname) }} </div>  
+    {{ form_errors(form.surveyname) }} 
+    {{ form_widget(form.surveyname) }}
+#}
+
+{#
+    {{ form_row(form.status) }}
+    {{ form_row(form.uiduser) }}
+    {{ form_row(form.uidmanager) }}
+#}
+
+    <h3>Questions</h3>
+{# WAS <ul class="questions" data-prototype="{{ form_widget(form.questions.vars.prototype)|e('html_attr') }}">#}
+    <ul class="questions" data-prototype="{{ _self.tagCollectionItem(form.questions.vars.prototype)|e('html_attr') }}">
+        {# iterate over each existing question and render its only field: title #}
+        {% for question in form.questions %}
+            <li>
+              {{ form_row(question.title) }}
+	      <div style="display:none; width:200px;"> {{ form_label(question.select) }} </div>  
+	      <div style="display:none;"> {{ form_errors(question.select) }} </div>  
+	      <div style="display:none; width:200px;"> {{ form_widget(question.select) }} </div>  
+            </li>
+        {% endfor %}
+    </ul>
+
+    <button type="submit">SAVE</button>
+{{ form_end(form) }}
+
+
+{% endblock %}
+

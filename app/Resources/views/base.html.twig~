@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+  <head>
+
+<!-- http://symfony.com/doc/current/cookbook/form/form_collections.html -->
+
+    <script type="text/javascript" src="{{ asset('js/jquery-3.1.0.min.js') }}"></script>
+
+    <script>
+var $collectionHolder;
+
+//
+// setup an "add a question" link
+//
+var $addQuestionLink = $('<a href="#" class="add_question_link">Add a question</a>');
+var $newLinkLi = $('<li></li>').append($addQuestionLink);
+
+jQuery(document).ready(function() {
+    // Get the ul that holds the collection of questions
+    $collectionHolder = $('ul.questions');
+
+    // add the "add a question" anchor and li to the questions ul
+    $collectionHolder.append($newLinkLi);
+
+    // count the current form inputs we have (e.g. 2), use that as the new
+    // index when inserting a new item (e.g. 2)
+    $collectionHolder.data('index', $collectionHolder.find(':input').length);
+
+    $addQuestionLink.on('click', function(e) {
+        // prevent the link from creating a "#" on the URL
+        e.preventDefault();
+
+        // add a new question form (see next code block)
+        addQuestionForm($collectionHolder, $newLinkLi);
+    });
+});
+
+
+function addQuestionForm($collectionHolder, $newLinkLi) {
+    // Get the data-prototype explained earlier
+    var prototype = $collectionHolder.data('prototype');
+
+    // get the new index
+    var index = $collectionHolder.data('index');
+
+    // Replace '__name__' in the prototype's HTML to
+    // instead be a number based on how many items we have
+    var newForm = prototype.replace(/__name__/g, index);
+
+    // increase the index with one for the next item
+    $collectionHolder.data('index', index + 1);
+
+    // Display the form in the page in an li, before the "Add a question" link li
+    var $newFormLi = $('<li></li>').append(newForm);
+    $newLinkLi.before($newFormLi);
+}
+
+
+
+    </script>
+    <meta charset="UTF-8" />
+    <title>{% block title %}Welcome!{% endblock %}</title>
+    {% block stylesheets %}{% endblock %}
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+  </head>
+  <body>
+
+    <center>
+      <h1><a href="{{ path('homepage') }}">QUESTIME</a></h1>
+    </center>
+
+    <hr>
+
+{% for flash_message in app.session.flashBag.get('error') %}
+    <hr><center><h3>
+    <div class="flash-error">
+        {{ flash_message }}
+    </div>
+    </h3></center></hr>
+{% endfor %}
+
+{% for flash_message in app.session.flashBag.get('notice') %}
+    <hr><center>
+    <div class="flash-notice">
+        {{ flash_message }}
+    </div>
+    </center></hr>
+{% endfor %}
+
+
+    {% block body %}{% endblock %}
+    {% block javascripts %}{% endblock %}
+    
+    <hr> 
+
+    <center>
+      <a href="{{ path('homepage') }}">Go to QUES(tion)TIME homepage</a> ---
+      <a href="{{ path('smallprint') }}">Small print</a> ---
+      <a href="{{ path('faq') }}">F.A.Q.</a> ---
+      BETA VERSION!
+</center>
+
+  </body>
+</html>

@@ -1,0 +1,36 @@
+
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+<center><h2>{{ survey.title }}</h2></center>
+
+
+{{ form_start(form) }}
+
+    <div style="display:none; width:150px;"> {{ form_label(form.title) }}   
+    {{ form_errors(form.title) }} 
+    {{ form_widget(form.title) }}
+    </div>
+
+    <div style="display:none; width:150px;"> {{ form_row(form.numberofvoters) }} </div>  
+
+    <h3>Select Yes/No (or leave undefined) for each question:</h3>
+
+      {% for question in form.questions %}
+        <div style="display:none;"> {{ form_label(question.title) }}</div>
+        <div style="display:inline-block;">{{ form_errors(question.title) }} </div>
+        <div style="display:inline-block;">{{ form_widget(question.title) }}</div>
+	<div style="display:none; width:200px;"> {{ form_label(question.select) }} </div>  
+	<div style="display:inline-block;"> {{ form_errors(question.select) }} </div>  
+	<div style="display:inline-block; width:200px;"> {{ form_widget(question.select) }} </div>  
+
+        <br>
+      {% endfor %}
+
+    <button type="submit">SAVE</button>
+
+{{ form_end(form) }}
+
+{% endblock %}
+

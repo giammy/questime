@@ -1,0 +1,67 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+
+{% for survey in surveys %}
+
+  <h2> {{ survey.title }} ---  ( {{ survey.surveyname }} ---  Status: {{ survey.status }} )</h3>
+
+  ID: {{ survey.id }} --- User link: 
+   <a href="{{ url('homepage') }}q/{{survey.uiduser}}">{{ url('homepage') }}q/{{survey.uiduser}}</a> --- 
+   Manager link: 
+   <a href="{{ url('homepage') }}m/{{survey.uidmanager}}">{{ url('homepage') }}m/{{survey.uidmanager}}</a>
+
+  <br>
+
+{#
+  List of Persons:
+  <ul>
+    {% for person in persons %}
+      <li>{{ person.username }},{{ person.name }},{{ person.surname }},{{ person.email }},{{ person.token }}</li>
+    {% endfor %}
+  </ul>
+#}
+
+ <br>
+
+  Questions:
+
+  <ul>
+    {% for question in survey.questions %} 
+      <li> {{ question.title }}  <br>
+	Replies:
+        <ul>
+	  <li>Yes: {{ survey.mergedreplies[loop.index0]['Yes'] }}</li>
+	  <li>No: {{ survey.mergedreplies[loop.index0]['No'] }}</li>
+	  <li>Undefined: {{ survey.mergedreplies[loop.index0]['null'] }}</li>
+        </ul>
+      </li>
+    {% endfor %}
+  </ul>
+
+{#
+  {% if survey.numberofvoters > 0 %}
+    <h3> Voters:</h3>
+    <ul>
+      {% for v in survey.hasvoted %}
+        <li> {{ v }} </li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+#}
+
+  <h3> Vote Receipt: (voters up to now: {{ survey.votereceipt|length }})</h3>
+  <ul>
+  {% for v in survey.votereceipt %}
+    <li> {{ v }} </li>
+  {% endfor %}
+  </ul>
+
+
+
+<hr>
+<hr>
+{% endfor %}
+
+
+{% endblock %}
+

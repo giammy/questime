@@ -1,0 +1,70 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+
+<center>
+
+Configuration of the survey: PLEASE PRINT OR STORE IT!!!
+
+
+<center>
+Management link: <h2>{{ url('homepage') }}q/{{survey.uidmanager}}</h2>
+</center>
+
+
+</center>
+
+<ul>
+<li> Title: {{ survey.title }}
+</li>
+{#
+<li> UID manager: {{ survey.uidmanager }}
+</li>
+<li> UID user: {{ survey.uiduser }}
+</li>
+#}
+<li> Status: {{ survey.status }}
+</li>
+<li> Votes at the moment: {{ survey.votereceipt|length }}
+</li>
+
+</ul>
+
+ <br>
+
+  Questions:
+
+  <ul>
+    {% for question in survey.questions %} 
+      <li> {{ question.title }}  <br>
+	Replies:
+        <ul>
+	  <li>Yes: {{ survey.mergedreplies[loop.index0]['Yes'] }}</li>
+	  <li>No: {{ survey.mergedreplies[loop.index0]['No'] }}</li>
+	  <li>Undefined: {{ survey.mergedreplies[loop.index0]['null'] }}</li>
+        </ul>
+      </li>
+    {% endfor %}
+  </ul>
+
+
+
+{% if personstokens is empty %}
+
+This VOTE is UNLIMITED - everyone can vote with this URL:
+
+<center><h2>{{ url('homepage') }}q/{{survey.uiduser}}</h2></center>
+
+{% else %}
+
+This VOTE is LIMITED - send  one token for each voters, and each voter can vote 1 time with the given URL:
+
+  <ul>
+  {% for token in personstokens %}
+      <li> {{ url('homepage') }}q/{{survey.uiduser}}/{{token}} </li>
+  {% endfor %}
+  </ul>
+{% endif %}
+
+
+{% endblock %}
+

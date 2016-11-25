@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+
+<center>
+You voted, today, now:
+<br>
+Votation token is: {{ token }}
+<br>
+Thank you
+<br>
+<a href="{{ path('homepage') }}">Go to QUES(tion)TIME homepage</a>
+</center>
+
+{% endblock %}
