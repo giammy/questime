@@ -9,16 +9,16 @@ questime
 ** guess what ...
 * /newsurvey                
 ** create a new survey
-* /m/<muidsurvey>           
+* /m/-muidsurvey-           
 ** manager view of the survey
-* /q/<uidsurvey>            
+* /q/-uidsurvey-            
 ** unlimited votation
-* /q/<uidsurvey>/<uidvoter> 
+* /q/-uidsurvey-/-uidvoter- 
 ** fixed votation
 * /manage                   
 ** the index for the site manager
 * /manage/show              
 ** show all surveys
-* /manage/show/<muidsurvey> 
+* /manage/show/-muidsurvey- 
 ** show just one survey
 
